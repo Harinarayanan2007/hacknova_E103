@@ -34,7 +34,25 @@ export default function OnboardingPage() {
         goal: updatedAnswers[4]
       };
 
+      // Save profile locally
       localStorage.setItem("startupProfile", JSON.stringify(profile));
+
+      // Update User Status in DB
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        // Mark as on-boarded in background (non-blocking)
+        fetch('/api/user/complete-onboarding', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: user.email })
+        });
+
+        // Update local user object too
+        user.hasOnboarded = true;
+        localStorage.setItem("user", JSON.stringify(user));
+      }
+
       router.push("/analysis");
     } else {
       setStep(step + 1);
@@ -42,9 +60,22 @@ export default function OnboardingPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6">
-      <div className="w-full max-w-xl">
-        <h2 className="text-xl font-semibold mb-4">
+    <main className="min-h-screen flex items-center justify-center px-6 bg-background text-foreground">
+      <div className="w-full max-w-xl bg-secondary p-8 rounded-2xl border border-gray-800 shadow-2xl">
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-xs font-mono text-gray-500">STEP {step + 1} / {questions.length}</span>
+            <span className="text-xs font-mono text-primary animate-pulse">GROWALLY_INIT</span>
+          </div>
+          <div className="h-1 w-full bg-gray-800 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-primary transition-all duration-500 ease-out"
+              style={{ width: `${((step + 1) / questions.length) * 100}%` }}
+            ></div>
+          </div>
+        </div>
+
+        <h2 className="text-2xl font-bold mb-6 text-white tracking-tight">
           {questions[step]}
         </h2>
 
@@ -52,19 +83,15 @@ export default function OnboardingPage() {
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           placeholder="Type your answer..."
-          className="w-full border border-gray-300 rounded-md px-4 py-3 mb-4"
+          className="w-full bg-black border border-gray-700 focus:border-primary rounded-xl px-5 py-4 mb-8 text-white placeholder-gray-600 focus:outline-none focus:ring-1 focus:ring-primary transition-all"
         />
 
         <button
           onClick={handleNext}
-          className="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 transition"
+          className="w-full bg-primary text-black font-bold uppercase tracking-wide px-6 py-4 rounded-xl hover:bg-green-400 hover:shadow-[0_0_20px_rgba(0,220,130,0.4)] transition-all duration-300"
         >
-          {step === questions.length - 1 ? "Finish" : "Next"}
+          {step === questions.length - 1 ? "Finish Integration" : "Next Step"}
         </button>
-
-        <p className="text-sm text-gray-500 mt-4">
-          Step {step + 1} of {questions.length}
-        </p>
       </div>
     </main>
   );

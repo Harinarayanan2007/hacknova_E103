@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
-      
+
       <h1 className="text-4xl font-bold mb-4">
         Growally
       </h1>
@@ -17,12 +17,20 @@ export default function Home() {
         create high-impact content and investor-ready pitches in minutes.
       </p>
 
-      <button
-        onClick={() => router.push("/onboarding")}
-        className="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 transition"
-      >
-        Start Now
-      </button>
+      <div className="flex flex-col sm:flex-row gap-4">
+        <button
+          onClick={() => router.push("/signup")}
+          className="bg-primary text-black font-bold px-8 py-3 rounded-full hover:bg-green-400 transition transform hover:scale-105"
+        >
+          Get Started
+        </button>
+        <button
+          onClick={() => router.push("/login")}
+          className="bg-transparent border border-gray-600 text-white px-8 py-3 rounded-full hover:border-white transition"
+        >
+          Log In
+        </button>
+      </div>
 
     </main>
   );

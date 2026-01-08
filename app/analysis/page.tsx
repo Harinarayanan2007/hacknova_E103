@@ -1,58 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from 'next/link';
 
 export default function AnalysisPage() {
-  const router = useRouter();
-  const [profile, setProfile] = useState<any>(null);
-  const [analysis, setAnalysis] = useState("");
-
-  useEffect(() => {
-    const data = localStorage.getItem("startupProfile");
-    if (data) {
-      const parsed = JSON.parse(data);
-      setProfile(parsed);
-
-      // Temporary AI-like analysis (real AI comes next)
-      setAnalysis(`
-Based on your startup:
-
-• Focus on validating product-market fit
-• Improve brand visibility through consistent content
-• Build trust via storytelling and founder-led posts
-• Prepare clear investor narrative and traction metrics
-
-Recommended next steps:
-1. Strengthen customer feedback loop
-2. Build online presence (LinkedIn & Instagram)
-3. Prepare pitch-ready content
-      `);
-    }
-  }, []);
-
-  if (!profile) {
-    return <p className="p-6">Loading analysis...</p>;
-  }
-
   return (
-    <main className="min-h-screen flex justify-center px-6 py-10">
-      <div className="max-w-2xl w-full">
-        <h1 className="text-2xl font-bold mb-4">
-          Startup Analysis & Recommendations
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-6">
+      <div className="max-w-4xl w-full">
+        <h1 className="text-3xl md:text-5xl font-bold text-center mb-12 text-primary tracking-tight">
+          Choose Your Path <span className="text-white">🚀</span>
         </h1>
 
-        <pre className="bg-gray-100 p-4 rounded-md mb-6 whitespace-pre-wrap">
-          {analysis}
-        </pre>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* AI Assistant Card */}
+          <Link href="/assistant" className="group relative block h-64">
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-gray-800 transition-all duration-300 group-hover:border-primary group-hover:shadow-[0_0_20px_rgba(0,220,130,0.3)]"></div>
+            <div className="relative h-full flex flex-col items-center justify-center p-6 text-center z-10">
+              <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-black transition-colors">
+                <span className="text-3xl">🤖</span>
+              </div>
+              <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">AI Assistant</h2>
+              <p className="text-gray-400 text-sm">Chat with your intelligent business advisor for growth strategies and content creation.</p>
+            </div>
+          </Link>
 
-        <button
-          onClick={() => router.push("/assistant")}
-          className="bg-black text-white px-6 py-3 rounded-md"
-        >
-          Talk to AI Assistant
-        </button>
+          {/* Community Card */}
+          <Link href="/campaigns" className="group relative block h-64">
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-gray-800 transition-all duration-300 group-hover:border-primary group-hover:shadow-[0_0_20px_rgba(0,220,130,0.3)]"></div>
+            <div className="relative h-full flex flex-col items-center justify-center p-6 text-center z-10">
+              <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-black transition-colors">
+                <span className="text-3xl">🌍</span>
+              </div>
+              <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Community Hub</h2>
+              <p className="text-gray-400 text-sm">Explore fundraising campaigns, find partners, and connect with other businesses.</p>
+            </div>
+          </Link>
+        </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -10,7 +10,12 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@prisma/client": "^5.10.2",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.3",
     "next": "16.1.1",
+    "openai": "^6.15.0",
+    "prisma": "^5.10.2",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
